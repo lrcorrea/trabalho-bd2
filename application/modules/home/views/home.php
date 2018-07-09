@@ -52,7 +52,7 @@
 					</div>
 				</div>
 				<div class="card-action">
-					<a href="<?php echo base_url() . 'consulta/1' ?>">Realizar Consulta</a>
+					<a href="<?php echo base_url() . 'consulta/3' ?>">Realizar Consulta</a>
 				</div>
 			</div>
 

@@ -26,9 +26,7 @@ class consulta_m extends CI_Model
                      ->join('coleta_seletiva c', 'm.id_municipio=c.id_municipio')
                      ->where('c.coleta_seletiva', 1)
                      ->order_by('m.nome', 'ASC');
-        }
-
-        if($query == 2){
+        }else if($query == 2){
             $query = $this->db->query('
                 select nome
                 from municipio
@@ -44,7 +42,18 @@ class consulta_m extends CI_Model
             ');
 
             return $query->result();
+        }else if($query == 3){
+            $this->db->select('nome')
+                     ->from('municipio')
+                     ->join('coleta_seletiva', 'municipio.id_municipio = coleta_seletiva.id_municipio', 'LEFT')
+                     ->order_by('nome', 'ASC');
         }
+
+        /*
+SELECT nome
+FROM municipio
+LEFT JOIN coleta_seletiva ON municipio.id_municipio = coleta_seletiva.id_municipio;
+        */
 
         $result = $this->db->get()->result();
         return $result;
