@@ -47,13 +47,24 @@ class consulta_m extends CI_Model
                      ->from('municipio')
                      ->join('coleta_seletiva', 'municipio.id_municipio = coleta_seletiva.id_municipio', 'LEFT')
                      ->order_by('nome', 'ASC');
+        } else if($query == 4){
+            $this->db->select('nome')
+                     ->from('municipio')
+                     ->where('id_municipio in
+                             (SELECT DISTINCT 
+                                id_municipio 
+                            FROM municipio
+                                INNER JOIN catadores as C USING(id_municipio)
+                                INNER JOIN frente_trabalho_temporario as FTT USING(id_municipio)
+                                INNER JOIN trabalhadores_remunerados as TR USING(id_municipio)
+                            WHERE 
+                                C.ano = 2015 AND 
+                                FTT.ano = 2015 AND 
+                                TR.ano = 2015)
+                             ')
+                     ->order_by('nome', 'ASC');
+                     
         }
-
-        /*
-SELECT nome
-FROM municipio
-LEFT JOIN coleta_seletiva ON municipio.id_municipio = coleta_seletiva.id_municipio;
-        */
 
         $result = $this->db->get()->result();
         return $result;
